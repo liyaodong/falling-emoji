@@ -23,6 +23,9 @@ const setAnimShowed = () => {
 };
 
 window.onload = (() => {
+  const today = new Date();
+  // only work on 6/8 every year
+  if (today.getMonth() !== 5 || today.getDate() !== 8) return;
   $('body').append(`<style>
     .birthday-emoji {
       width: 28px;
