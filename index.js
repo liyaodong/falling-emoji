@@ -31,7 +31,7 @@ window.onload = (() => {
   });
 });
 
-window.startAnim = () => {
+function startAnim() {
   animing = true;
   const $container = $(document.createElement('div'));
   $container
