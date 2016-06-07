@@ -1,44 +1,87 @@
 require('./TweenMax.min');
 
-window.onload = () => {
-  TweenLite.set("#container", {
+const TIME = 5;
+const TOTAL = 25;
+const EMOJI = 'http://77g0kq.com1.z0.glb.clouddn.com/birthday-emoji.png';
+
+const w = window.innerWidth;
+const h = window.innerHeight;
+
+const R = (min, max) => min + Math.random() * (max - min);
+
+let animing = false;
+
+window.onload = (() => {
+  $('body').append(`<style>
+    .birthday-emoji {
+      width: 28px;
+      height: 28px;
+      position: absolute;
+      background: url(${EMOJI});
+      background-size: 100% 100%;
+    }
+  <style>`);
+
+  startAnim();
+
+  $('a#site-logo').on('click', e => {
+    e.preventDefault();
+    if (animing) return;
+    startAnim();
+  });
+});
+
+window.startAnim = () => {
+  animing = true;
+  const $container = $(document.createElement('div'));
+  $container
+    .css({
+      position: 'fixed',
+      width: '100%',
+      height: '100%',
+      left: 0,
+      top: '0',
+      zIndex: '10',
+    })
+    .attr('id', 'falling-birthday');
+
+  $('body').append($container)
+
+  TweenLite.set("#falling-birthday", {
     perspective: 600
   });
 
-  var total = 20;
-  var warp = document.getElementById("container"),
-  w = window.innerWidth,
-  h = window.innerHeight;
-
-  for (let i = 0; i < total; i++) {
+  for (let i = 0; i < TOTAL; i++) {
     var Div = document.createElement('div');
     TweenLite.set(Div, {
       attr: {
-        class: 'dot'
+        class: 'birthday-emoji'
       },
       x: R(0, w),
-      y: R(-200, -150)
+      y: R(-500, -200),
+      scale: R(0.8, 1.3),
     });
-    warp.appendChild(Div);
-    animm(Div);
+    $container.append(Div);
+    anim(Div);
   }
 
-  function animm(elm) {
-    TweenMax.to(elm, R(6, 15), {
+  function anim(elm) {
+    TweenMax.to(elm, R(TIME / 2, TIME / 1.5), {
       y: h + 100,
       ease: Linear.easeNone,
-      repeat: -1,
-      delay: -15
+      repeat: 0,
+      delay: R(0, TIME - TIME / 1.5),
     });
-    TweenMax.to(elm, R(4, 8), {
-      x: '+=100',
+    TweenMax.to(elm, R(1, 4), {
+      x: Math.random() > 0.5 ? '+=100' : '-=100',
       repeat: -1,
       yoyo: true,
-      ease: Sine.easeInOut
+      ease: Sine.easeInOut,
     });
   };
 
-  function R(min, max) {
-    return min + Math.random() * (max - min)
-  };
+  setTimeout(() => {
+    $container.remove();
+    animing = false;
+  }, TIME * 1000);
 }

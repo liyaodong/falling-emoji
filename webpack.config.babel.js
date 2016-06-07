@@ -23,6 +23,10 @@ const config = {
     loaders: [
       { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/ },
     ],
+    noParse: 'TweenMax.min*',
+  },
+  externals: {
+    'jquery': 'jQuery',
   },
   plugins: [
     new webpack.DefinePlugin({
