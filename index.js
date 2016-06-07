@@ -11,6 +11,17 @@ const R = (min, max) => min + Math.random() * (max - min);
 
 let animing = false;
 
+const KEY = '__falling_emoji';
+
+const isShowedAnim = () => {
+  const result = window.localStorage.getItem(KEY);
+  return result !== null && Date.now() < result;
+};
+
+const setAnimShowed = () => {
+  window.localStorage.setItem(KEY, Date.now() + 1000 * 3600 * 3);
+};
+
 window.onload = (() => {
   $('body').append(`<style>
     .birthday-emoji {
@@ -22,17 +33,18 @@ window.onload = (() => {
     }
   <style>`);
 
-  startAnim();
-
   $('a#site-logo').on('click', e => {
     e.preventDefault();
     if (animing) return;
     startAnim();
   });
+
+  if (!isShowedAnim()) startAnim();
 });
 
 function startAnim() {
   animing = true;
+  setAnimShowed();
   const $container = $(document.createElement('div'));
   $container
     .css({
