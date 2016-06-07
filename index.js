@@ -52,8 +52,8 @@ window.startAnim = () => {
   });
 
   for (let i = 0; i < TOTAL; i++) {
-    var Div = document.createElement('div');
-    TweenLite.set(Div, {
+    const div = document.createElement('div');
+    TweenLite.set(div, {
       attr: {
         class: 'birthday-emoji'
       },
@@ -61,8 +61,8 @@ window.startAnim = () => {
       y: R(-500, -200),
       scale: R(0.8, 1.3),
     });
-    $container.append(Div);
-    anim(Div);
+    $container.append(div);
+    anim(div);
   }
 
   function anim(elm) {
